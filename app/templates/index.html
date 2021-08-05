@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% set active_page = "index" %}
+
+{% block header %}
+  <h1 class="display-3">{% block title %}PhishHack{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <p class="text-center mt-5 display-4">Enter URL or domain</p>
+
+    <div class=" container ">
+        <form method="get">
+            <div class="row justify-content-center mt-5">
+              <div class="col-8">
+                <label class="sr-only" for="inlineFormInput">Name</label>
+                <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="example.com" name="link">
+              </div>
+              
+              <div class="col-2">
+                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+              </div>
+            </div>
+          </form>
+    </div>
+
+{% if result %}
+
+
+
+{% endif %}
+
+{% endblock %}
