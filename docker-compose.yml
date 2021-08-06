@@ -1,0 +1,8 @@
+version: '3'
+services:
+  octopus:
+    build: .
+    volumes:
+     - ./app:/app
+    ports:
+     - "4040:4040"
