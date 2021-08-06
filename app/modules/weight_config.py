@@ -7,3 +7,4 @@ weigths["page_contain_inputs"] = 0.8
 weigths["use_tls"] = 0.8
 weigths["in_phish_base"] = 0.5
 weigths["title_in_google"] = 0.8
+weigths["base64_detect"] = 0.8

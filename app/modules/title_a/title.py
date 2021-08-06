@@ -19,7 +19,6 @@ class TitleAnalyzer(object):
         else:
             for res in search(title, stop=10):
                 url = urlparse(res).netloc
-                print(url, self.domain)
                 if self.domain in url:
                     return True
                 else:

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    <p class="text-center mt-5 display-4">Enter URL or domain</p>
+    <h3 class="text-center mt-5 ">Enter URL or domain</h3>
 
     <div class=" container ">
         <form method="get">
@@ -16,7 +16,7 @@
                 <input type="text" class="form-control mb-2" id="inlineFormInput" placeholder="example.com" name="link">
               </div>
               
-              <div class="col-2">
+              <div class="col-1">
                 <button type="submit" class="btn btn-primary mb-2">Submit</button>
               </div>
             </div>
@@ -25,69 +25,99 @@
 
 {% if report %}
 
-<p>{{ report }}</p>
 <div class="container">
-    <h5 class="alert alert-dark">Find verification tags: {{ report['report']['verifications_tags_count'] }}</h5>
+    {% if report['report']['verifications_tags_count'] > 1 %}
+    <h5 class="alert alert-success">
+      Find verification tags: {{ report['report']['verifications_tags_count'] }}
+    </h5>
+    {% else %}
+    <h5 class="alert alert-warning">
+      Find verification tags: {{ report['report']['verifications_tags_count'] }}
+    </h5>
+    {% endif %}
+
+
     
-    <h5 class="alert alert-dark">Find spf tag: 
       {% if report['report']['spf_tags'] %}
-      Yes
+      <h5 class="alert alert-success">Find spf tag: Yes
       {% else %}
-      No
+      <h5 class="alert alert-warning">Find spf tag: No
       {% endif %}
     </h5>
     
     
-    <h5 class="alert alert-dark">Top 10 google search:
+    
       {% if report['report']['top_google_search'] %}
-      Yes
+      <h5 class="alert alert-success">Top 10 google search: Yes
       {% else %}
-      No
+      <h5 class="alert alert-warning">Top 10 google search: No
       {% endif %}
     </h5>
     
-    <h5 class="alert alert-dark">Contain inputs or forms:
-      {% if report['report']['page_contain_inputs'] %}
-      Yes
+    
+      {% if not report['report']['page_contain_inputs'] %}
+      <h5 class="alert alert-success">Contain inputs or forms: No
       {% else %}
-      No
+      <h5 class="alert alert-warning">Contain inputs or forms: Yes
       {% endif %}
     </h5>
 
-    <h5 class="alert alert-dark">Site use TLS:
+    
       {% if report['report']['use_tls'] %}
-      Yes
+      <h5 class="alert alert-success">Site use TLS: Yes
       {% else %}
-      No
-      {% endif %}
-    </h5>
-
-    <h5 class="alert alert-dark">In phishing base:
-      {% if report['report']['in_phish_base'] %}
-      Yes
-      {% else %}
-      No
-      {% endif %}
-    </h5>
-
-    <h5 class="alert alert-dark">Title:
-      {% if report['report']['title_in_google'] %}
-      Yes
-      {% else %}
-      No
+      <h5 class="alert alert-warning">Site use TLS: No
       {% endif %}
     </h5>
 
     
+      {% if not report['report']['in_phish_base'] %}
+      <h5 class="alert alert-success">In phishing base: No
+      {% else %}
+      <h5 class="alert alert-warning">In phishing base: Yes
+      {% endif %}
+    </h5>
+
+    
+      {% if report['report']['title_in_google'] %}
+      <h5 class="alert alert-success">Title: Yes
+      {% else %}
+      <h5 class="alert alert-warning">Title: No
+      {% endif %}
+    </h5>
+
+    
+      {% if not report['report']['base64_detect'] %}
+      <h5 class="alert alert-success">Encoded images: No
+      {% else %}
+      <h5 class="alert alert-warning">Encoded images: Yes
+      {% endif %}
+    </h5>   
+</div>
+
+<div class="container">
+  <h4 class="text-center">Verdict</h4>
 </div>
 
 <div class="container">
   <h4 class="alert alert-info">Points:
     {{ (points*100) | int }}/100
   </h4>
-  <h4 class="alert alert-info">Status:
-     {% if points >= 0.60 %} Clean {% endif %}{% if points > 0.25 and points < 0.60%} Suspect {% endif %}{% if points <= 0.25 %} Phishing {% endif %}
-  </h4>
+     {% if points >= 0.60 %} 
+     <h4 class="alert alert-success">
+       Status: Clean 
+      </h4>
+       {% endif %}
+       {% if points > 0.25 and points < 0.60%}
+       <h4 class="alert alert-warning">
+        Status: Suspect 
+       </h4>
+       {% endif %}
+       {% if points <= 0.25 %}
+       <h4 class="alert alert-danger">
+        Status: Phishing 
+       </h4>
+       {% endif %}
 </div>
 
 {% endif %}

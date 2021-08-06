@@ -9,13 +9,11 @@ from app.modules.base_analyzer import BaseAnalyzer
 @app.route("/")
 def index():
     kwargs = request.args
-    print(kwargs)
     if not kwargs:
         return render_template("index.html")
     ba = BaseAnalyzer(**kwargs)
     report = ba.get_report()
     
-    print(report)
     if report["status"] == "error":
         flash(report["info"], "error")
         return render_template("index.html")

@@ -10,6 +10,7 @@ from app.modules.google_search_a.search_analyzer import SearchAnalyzer
 from app.modules.input_a.input_analyzer import InputAnalyzer
 from app.modules.tls_a.tls_analyzer import TLSAnalyzer
 from app.modules.static_a.static_analyzer import StaticAnalyzer
+from app.modules.base64_a.base64_analyzer import Base64Analyzer
 
 
 class BaseAnalyzer(object):
@@ -35,6 +36,7 @@ class BaseAnalyzer(object):
         tls_a = TLSAnalyzer(self.link)
         static_a = StaticAnalyzer(self.domain)
         title_a = TitleAnalyzer(self.link, self.domain)
+        base64_a = Base64Analyzer(self.link)
 
         self.report["verifications_tags"] = dns_a.check_any_varification()
         self.report["spf_tags"] = dns_a.check_spf()
@@ -44,6 +46,7 @@ class BaseAnalyzer(object):
         self.report["use_tls"] = tls_a.verify_tls()
         self.report["in_phish_base"] = static_a.check_in_static_base()
         self.report["title_in_google"] = title_a.check_title_in_google()
+        self.report["base64_detect"] = base64_a.base64_image_detect()
     
         return {"status": "success", "report": self.report}
 
@@ -62,8 +65,6 @@ class BaseAnalyzer(object):
                 
     def check_connection(self):
         try:
-            print(self.link)
-            print(self.domain)
             r = requests.get(f"http://{self.domain}")
             if r.status_code != 200:
                 return False
@@ -78,8 +79,6 @@ class BaseAnalyzer(object):
     def get_verdict(self):
         points = 1
         status = self.CLEAN
-
-        print(status, "<--------------------------")
 
         if self.report["verifications_tags_count"] > 1:
             return 1
@@ -100,5 +99,8 @@ class BaseAnalyzer(object):
 
         if not self.report["title_in_google"]:
             points *= weigths["title_in_google"]
+
+        if self.report["base64_detect"]:
+            points *= weigths["base64_detect"]
        
         return points

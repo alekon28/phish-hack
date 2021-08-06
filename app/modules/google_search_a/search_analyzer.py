@@ -10,7 +10,6 @@ class SearchAnalyzer(object):
     def top_google_search(self):
         for correct in search(self.domain, stop=10):
             url = urlparse(correct).netloc
-            print(url, self.domain)
             if self.domain in url:
                 return True
         return False
