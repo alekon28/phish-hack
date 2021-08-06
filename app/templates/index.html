@@ -27,9 +27,9 @@
 
 <p>{{ report }}</p>
 <div class="container">
-    <h5 class="alert alert-info">Find verification tags: {{ report['report']['verifications_tags_count'] }}</h5>
+    <h5 class="alert alert-dark">Find verification tags: {{ report['report']['verifications_tags_count'] }}</h5>
     
-    <h5 class="alert alert-info">Find spf tag: 
+    <h5 class="alert alert-dark">Find spf tag: 
       {% if report['report']['spf_tags'] %}
       Yes
       {% else %}
@@ -37,13 +37,57 @@
       {% endif %}
     </h5>
     
-    {% if report['report']['top_google_search'] %}
-    <h5 class="alert alert-info">Top 10 google search: Yes</h5>
-    {% endif %}
+    
+    <h5 class="alert alert-dark">Top 10 google search:
+      {% if report['report']['top_google_search'] %}
+      Yes
+      {% else %}
+      No
+      {% endif %}
+    </h5>
+    
+    <h5 class="alert alert-dark">Contain inputs or forms:
+      {% if report['report']['page_contain_inputs'] %}
+      Yes
+      {% else %}
+      No
+      {% endif %}
+    </h5>
+
+    <h5 class="alert alert-dark">Site use TLS:
+      {% if report['report']['use_tls'] %}
+      Yes
+      {% else %}
+      No
+      {% endif %}
+    </h5>
+
+    <h5 class="alert alert-dark">In phishing base:
+      {% if report['report']['in_phish_base'] %}
+      Yes
+      {% else %}
+      No
+      {% endif %}
+    </h5>
+
+    <h5 class="alert alert-dark">Title:
+      {% if report['report']['title_in_google'] %}
+      Yes
+      {% else %}
+      No
+      {% endif %}
+    </h5>
+
     
 </div>
-<div>
 
+<div class="container">
+  <h4 class="alert alert-info">Points:
+    {{ (points*100) | int }}/100
+  </h4>
+  <h4 class="alert alert-info">Status:
+     {% if points >= 0.60 %} Clean {% endif %}{% if points > 0.25 and points < 0.60%} Suspect {% endif %}{% if points <= 0.25 %} Phishing {% endif %}
+  </h4>
 </div>
 
 {% endif %}

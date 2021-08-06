@@ -14,9 +14,11 @@ def index():
         return render_template("index.html")
     ba = BaseAnalyzer(**kwargs)
     report = ba.get_report()
+    
     print(report)
     if report["status"] == "error":
         flash(report["info"], "error")
         return render_template("index.html")
+    points = ba.get_verdict()
     
-    return render_template("index.html", report=report)
+    return render_template("index.html", report=report, points=points)
